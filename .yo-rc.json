@@ -1,0 +1,40 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "org.regitiny.catiny.uaa",
+      "nativeLanguage": "vi"
+    },
+    "jhipsterVersion": "6.10.1",
+    "applicationType": "uaa",
+    "baseName": "CatinyUAA",
+    "packageName": "org.regitiny.catiny.uaa",
+    "packageFolder": "org/regitiny/catiny/uaa",
+    "serverPort": "10500",
+    "authenticationType": "uaa",
+    "cacheProvider": "redis",
+    "enableHibernateCache": true,
+    "websocket": false,
+    "databaseType": "sql",
+    "devDatabaseType": "h2Disk",
+    "prodDatabaseType": "mariadb",
+    "searchEngine": "elasticsearch",
+    "messageBroker": false,
+    "serviceDiscoveryType": "eureka",
+    "buildTool": "gradle",
+    "enableSwaggerCodegen": true,
+    "jwtSecretKey": "YTM0NTA2N2I2M2JmNzU0NTcyNzdjOTljZDNmM2UwMWEwMzM0ZGE1MzE1MjA0NDU5YTk4YWRkMWMxODg2MjA0MGU0MGRkMjZiMzUwNWZkMDBmZTMyMDNiMjNiM2M0ZWZkYzYzMmFlMmUwYzAzNjU1MjRiMjEzZjNjZGNkMmFjNDY=",
+    "embeddableLaunchScript": false,
+    "creationTimestamp": 1596384215972,
+    "testFrameworks": ["gatling", "cucumber"],
+    "jhiPrefix": "jhi",
+    "entitySuffix": "",
+    "dtoSuffix": "DTO",
+    "otherModules": [],
+    "enableTranslation": true,
+    "clientPackageManager": "npm",
+    "nativeLanguage": "vi",
+    "languages": ["vi", "en"],
+    "blueprints": [],
+    "skipClient": true
+  }
+}
