@@ -5,8 +5,8 @@ services:
     # volumes:
     #     - ~/volumes/jhipster/CatinyUAA/elasticsearch/:/usr/share/elasticsearch/data/
     ports:
-      - 9200:9200
-      - 9300:9300
+      - 14500:9200
+      - 14501:9300
     environment:
       - 'ES_JAVA_OPTS=-Xms1024m -Xmx1024m'
       - 'discovery.type=single-node'

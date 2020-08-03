@@ -1,4 +1,4 @@
-version: '2'
+version: '3.8'
 services:
   catinyuaa-app:
     image: catinyuaa
@@ -13,9 +13,11 @@ services:
       - JHIPSTER_CACHE_REDIS_CLUSTER=false
       # - JHIPSTER_CACHE_REDIS_SERVER=redis://catinyuaa-redis:6379
       # - JHIPSTER_CACHE_REDIS_CLUSTER=true
-      - JHIPSTER_SLEEP=120 # gives time for mariadb server to start
+      - JHIPSTER_SLEEP=100 # gives time for mariadb server to start
       - SPRING_DATA_JEST_URI=http://catinyuaa-elasticsearch:9200
       - SPRING_ELASTICSEARCH_REST_URIS=http://catinyuaa-elasticsearch:9200
+    ports:
+      - 10500:10500
   catinyuaa-mariadb:
     extends:
       file: mariadb.yml
@@ -28,10 +30,10 @@ services:
     extends:
       file: elasticsearch.yml
       service: catinyuaa-elasticsearch
-  jhipster-registry:
-    extends:
-      file: jhipster-registry.yml
-      service: jhipster-registry
-    environment:
-      - SPRING_CLOUD_CONFIG_SERVER_COMPOSITE_0_TYPE=native
-      - SPRING_CLOUD_CONFIG_SERVER_COMPOSITE_0_SEARCH_LOCATIONS=file:./central-config/docker-config/
+#  jhipster-registry:
+#    extends:
+#      file: jhipster-registry.yml
+#      service: jhipster-registry
+#    environment:
+#      - SPRING_CLOUD_CONFIG_SERVER_COMPOSITE_0_TYPE=native
+#      - SPRING_CLOUD_CONFIG_SERVER_COMPOSITE_0_SEARCH_LOCATIONS=file:./central-config/docker-config/
