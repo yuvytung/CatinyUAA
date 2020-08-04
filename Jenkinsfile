@@ -37,13 +37,14 @@ node {
         archiveArtifacts artifacts: '**/build/libs/*.jar', fingerprint: true
     }
 
-    stage('quality analysis') {
-        withSonarQubeEnv('catiny-uaa-sonar') {
-            sh "./gradlew sonarqube --no-daemon"
-        }
-    }
+//    todo sonar
+//    stage('quality analysis') {
+//        withSonarQubeEnv('catiny-uaa-sonar') {
+//            sh "./gradlew sonarqube --no-daemon"
+//        }
+//    }
 
-    stage('chack jhipster-registry'){
+    stage('check jhipster-registry'){
         try
         {
             sh "docker container inspect docker_jhipster-registry_1"
