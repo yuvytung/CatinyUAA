@@ -60,8 +60,11 @@ node {
         sh "./gradlew bootJar -Pprod jibDockerBuild"
     }
 
-    stage('start docker catiny-uaa') {
-        sh "docker-compose -f src/main/docker/mariadb.yml up -d"
-    }
+//    stage('start docker catiny-uaa') {
+//        sh "docker-compose -f src/main/docker/mariadb.yml up -d"
+//    }
+
+    sh 'docker-compose -f src/main/docker/mariadb.yml up -d'
+
 
 }
