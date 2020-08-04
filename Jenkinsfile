@@ -51,7 +51,7 @@ node {
         }
         catch (err)
         {
-            echo(err)
+            echo "docker_jhipster-registry_1 not running"
             sh "docker-compose -f src/main/docker/jhipster-registry-docker.yml up -d"
         }
     }
