@@ -1,11 +1,13 @@
 package org.regitiny.catiny.uaa.service;
 
-public class InvalidPasswordException extends RuntimeException {
+public class InvalidPasswordException extends RuntimeException
+{
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    public InvalidPasswordException() {
-        super("Incorrect password");
-    }
+  public InvalidPasswordException()
+  {
+    super("Incorrect password");
+  }
 
 }

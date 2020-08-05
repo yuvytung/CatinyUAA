@@ -57,11 +57,13 @@ node {
     }
 
     stage('build docker catiny-uaa') {
-        sh "./gradlew bootJar -Pprod jibDockerBuild"
+        sh "./gradlew bootJar -Pprod jibDockerBuild --no-daemon"
     }
 
     stage('start docker catiny-uaa') {
+        sh "docker-compose -f src/main/docker/app.yml down"
         sh "docker-compose -f src/main/docker/app.yml up -d"
+        echo "Successful deployment"
     }
 
 }

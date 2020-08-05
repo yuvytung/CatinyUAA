@@ -13,12 +13,15 @@ import java.lang.annotation.Target;
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @WithSecurityContext(factory = WithUnauthenticatedMockUser.Factory.class)
-public @interface WithUnauthenticatedMockUser {
+public @interface WithUnauthenticatedMockUser
+{
 
-    class Factory implements WithSecurityContextFactory<WithUnauthenticatedMockUser> {
-        @Override
-        public SecurityContext createSecurityContext(WithUnauthenticatedMockUser annotation) {
-            return SecurityContextHolder.createEmptyContext();
-        }
+  class Factory implements WithSecurityContextFactory<WithUnauthenticatedMockUser>
+  {
+    @Override
+    public SecurityContext createSecurityContext(WithUnauthenticatedMockUser annotation)
+    {
+      return SecurityContextHolder.createEmptyContext();
     }
+  }
 }

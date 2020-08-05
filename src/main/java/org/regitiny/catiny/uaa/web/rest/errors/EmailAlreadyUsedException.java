@@ -1,10 +1,12 @@
 package org.regitiny.catiny.uaa.web.rest.errors;
 
-public class EmailAlreadyUsedException extends BadRequestAlertException {
+public class EmailAlreadyUsedException extends BadRequestAlertException
+{
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    public EmailAlreadyUsedException() {
-        super(ErrorConstants.EMAIL_ALREADY_USED_TYPE, "Email is already in use!", "userManagement", "emailexists");
-    }
+  public EmailAlreadyUsedException()
+  {
+    super(ErrorConstants.EMAIL_ALREADY_USED_TYPE, "Email is already in use!", "userManagement", "emailexists");
+  }
 }

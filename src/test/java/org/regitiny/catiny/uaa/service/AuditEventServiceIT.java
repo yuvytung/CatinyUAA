@@ -22,7 +22,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest(classes = CatinyUaaApp.class)
 @ExtendWith(RedisTestContainerExtension.class)
 @Transactional
-public class AuditEventServiceIT {
+class AuditEventServiceIT {
     @Autowired
     private AuditEventService auditEventService;
 
@@ -58,7 +58,7 @@ public class AuditEventServiceIT {
 
     @Test
     @Transactional
-    public void verifyOldAuditEventsAreDeleted() {
+    void verifyOldAuditEventsAreDeleted() {
         persistenceAuditEventRepository.deleteAll();
         persistenceAuditEventRepository.save(auditEventOld);
         persistenceAuditEventRepository.save(auditEventWithinRetention);
