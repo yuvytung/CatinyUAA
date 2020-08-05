@@ -61,7 +61,7 @@ node {
     }
 
     stage('start docker catiny-uaa') {
-        sh "docker-compose -f src/main/docker/app.yml down"
+//        sh "docker-compose -f src/main/docker/app.yml down"
         sh "docker-compose -f src/main/docker/app.yml up -d"
         echo "Successful deployment"
     }
