@@ -27,7 +27,7 @@ public class RedisTestContainerExtension implements BeforeAllCallback
   {
     if (!started.get())
     {
-      redis = new GenericContainer("redis:6.0.4").withExposedPorts(13500);
+      redis = new GenericContainer("redis:6.0.4").withExposedPorts(6379);
       redis.start();
       started.set(true);
     }

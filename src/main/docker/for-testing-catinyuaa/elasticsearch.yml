@@ -1,0 +1,12 @@
+version: '2'
+services:
+  catinyuaa-elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.8.8
+    #    volumes:
+    #      - /root/volumes/jhipster/CatinyUAA/elasticsearch/:/usr/share/elasticsearch/data/
+    ports:
+      - 14500:9200
+      - 14501:9300
+    environment:
+      - 'ES_JAVA_OPTS=-Xms1024m -Xmx1024m'
+      - 'discovery.type=single-node'
