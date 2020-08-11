@@ -26,6 +26,34 @@ node {
 		sh "./gradlew checkstyleNohttp --no-daemon"
 	}
 
+	stage('check jhipster-registry')
+	{
+		try
+		{
+			sh "docker container inspect docker_jhipster-registry_1"
+		}
+		catch (err)
+		{
+			echo "docker_jhipster-registry_1 not running"
+			sh "docker-compose -f src/main/docker/jhipster-registry-docker.yml up -d"
+		}
+	}
+
+	stage('check integration')
+	{
+		try
+		{
+			sh 'docker container inspect docker_catinyuaa-elasticsearch_1'
+			sh 'docker container inspect docker_catinyuaa-mariadb_1'
+			sh 'docker container inspect docker_catinyuaa-redis_1'
+		}
+		catch (err)
+		{
+			echo 'mariadb ; redis or elasticsearch is not running'
+			sh "docker-compose -f src/ain/docker/integration.yml up -d"
+		}
+	}
+
 	stage('backend tests')
 	{
 		try
@@ -55,19 +83,6 @@ node {
 //            sh "./gradlew sonarqube --no-daemon"
 //        }
 //    }
-
-	stage('check jhipster-registry')
-	{
-		try
-		{
-			sh "docker container inspect docker_jhipster-registry_1"
-		}
-		catch (err)
-		{
-			echo "docker_jhipster-registry_1 not running"
-			sh "docker-compose -f src/main/docker/jhipster-registry-docker.yml up -d"
-		}
-	}
 
 	stage('build docker catiny-uaa')
 	{
