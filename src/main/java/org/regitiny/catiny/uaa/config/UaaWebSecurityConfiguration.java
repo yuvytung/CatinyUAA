@@ -30,7 +30,7 @@ public class UaaWebSecurityConfiguration extends WebSecurityConfigurerAdapter
   }
 
   @PostConstruct
-  public void init()
+  public void init() throws Exception
   {
     try
     {
@@ -58,7 +58,7 @@ public class UaaWebSecurityConfiguration extends WebSecurityConfigurerAdapter
   }
 
   @Override
-  public void configure(WebSecurity web)
+  public void configure(WebSecurity web) throws Exception
   {
     web.ignoring()
       .antMatchers(HttpMethod.OPTIONS, "/**")

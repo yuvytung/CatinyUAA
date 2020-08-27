@@ -42,7 +42,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
 @SpringBootTest(classes = CatinyUaaApp.class)
 @ExtendWith(RedisTestContainerExtension.class)
-class UserResourceIT
+public class UserResourceIT
 {
 
   private static final String DEFAULT_LOGIN = "johndoe";
@@ -96,8 +96,8 @@ class UserResourceIT
   @BeforeEach
   public void setup()
   {
-    Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE)).clear();
-    Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE)).clear();
+    cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE).clear();
+    cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE).clear();
   }
 
   /**
@@ -130,7 +130,7 @@ class UserResourceIT
 
   @Test
   @Transactional
-  void createUser() throws Exception
+  public void createUser() throws Exception
   {
     int databaseSizeBeforeCreate = userRepository.findAll().size();
 
@@ -168,7 +168,7 @@ class UserResourceIT
 
   @Test
   @Transactional
-  void createUserWithExistingId() throws Exception
+  public void createUserWithExistingId() throws Exception
   {
     int databaseSizeBeforeCreate = userRepository.findAll().size();
 
@@ -197,7 +197,7 @@ class UserResourceIT
 
   @Test
   @Transactional
-  void createUserWithExistingLogin() throws Exception
+  public void createUserWithExistingLogin() throws Exception
   {
     // Initialize the database
     userRepository.saveAndFlush(user);
@@ -228,7 +228,7 @@ class UserResourceIT
 
   @Test
   @Transactional
-  void createUserWithExistingEmail() throws Exception
+  public void createUserWithExistingEmail() throws Exception
   {
     // Initialize the database
     userRepository.saveAndFlush(user);
@@ -259,7 +259,7 @@ class UserResourceIT
 
   @Test
   @Transactional
-  void getAllUsers() throws Exception
+  public void getAllUsers() throws Exception
   {
     // Initialize the database
     userRepository.saveAndFlush(user);
@@ -279,13 +279,13 @@ class UserResourceIT
 
   @Test
   @Transactional
-  void getUser() throws Exception
+  public void getUser() throws Exception
   {
     // Initialize the database
     userRepository.saveAndFlush(user);
     mockUserSearchRepository.save(user);
 
-    assertThat(Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE)).get(user.getLogin())).isNull();
+    assertThat(cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE).get(user.getLogin())).isNull();
 
     // Get the user
     restUserMockMvc.perform(get("/api/users/{login}", user.getLogin()))
@@ -298,12 +298,12 @@ class UserResourceIT
       .andExpect(jsonPath("$.imageUrl").value(DEFAULT_IMAGEURL))
       .andExpect(jsonPath("$.langKey").value(DEFAULT_LANGKEY));
 
-    assertThat(Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE)).get(user.getLogin())).isNotNull();
+    assertThat(cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE).get(user.getLogin())).isNotNull();
   }
 
   @Test
   @Transactional
-  void getNonExistingUser() throws Exception
+  public void getNonExistingUser() throws Exception
   {
     restUserMockMvc.perform(get("/api/users/unknown"))
       .andExpect(status().isNotFound());
@@ -311,7 +311,7 @@ class UserResourceIT
 
   @Test
   @Transactional
-  void updateUser() throws Exception
+  public void updateUser() throws Exception
   {
     // Initialize the database
     userRepository.saveAndFlush(user);
@@ -357,7 +357,7 @@ class UserResourceIT
 
   @Test
   @Transactional
-  void updateUserLogin() throws Exception
+  public void updateUserLogin() throws Exception
   {
     // Initialize the database
     userRepository.saveAndFlush(user);
@@ -404,7 +404,7 @@ class UserResourceIT
 
   @Test
   @Transactional
-  void updateUserExistingEmail() throws Exception
+  public void updateUserExistingEmail() throws Exception
   {
     // Initialize the database with 2 users
     userRepository.saveAndFlush(user);
@@ -450,7 +450,7 @@ class UserResourceIT
 
   @Test
   @Transactional
-  void updateUserExistingLogin() throws Exception
+  public void updateUserExistingLogin() throws Exception
   {
     // Initialize the database
     userRepository.saveAndFlush(user);
@@ -496,7 +496,7 @@ class UserResourceIT
 
   @Test
   @Transactional
-  void deleteUser() throws Exception
+  public void deleteUser() throws Exception
   {
     // Initialize the database
     userRepository.saveAndFlush(user);
@@ -508,7 +508,7 @@ class UserResourceIT
       .with(csrf()))
       .andExpect(status().isNoContent());
 
-    assertThat(Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE)).get(user.getLogin())).isNull();
+    assertThat(cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE).get(user.getLogin())).isNull();
 
     // Validate the database is empty
     assertPersistedUsers(users -> assertThat(users).hasSize(databaseSizeBeforeDelete - 1));
@@ -516,7 +516,7 @@ class UserResourceIT
 
   @Test
   @Transactional
-  void getAllAuthorities() throws Exception
+  public void getAllAuthorities() throws Exception
   {
     restUserMockMvc.perform(get("/api/users/authorities")
       .accept(MediaType.APPLICATION_JSON)
@@ -528,7 +528,7 @@ class UserResourceIT
   }
 
   @Test
-  void testUserEquals() throws Exception
+  public void testUserEquals() throws Exception
   {
     TestUtil.equalsVerifier(User.class);
     User user1 = new User();
@@ -543,7 +543,7 @@ class UserResourceIT
   }
 
   @Test
-  void testUserDTOtoUser()
+  public void testUserDTOtoUser()
   {
     UserDTO userDTO = new UserDTO();
     userDTO.setId(DEFAULT_ID);
@@ -575,7 +575,7 @@ class UserResourceIT
   }
 
   @Test
-  void testUserToUserDTO()
+  public void testUserToUserDTO()
   {
     user.setId(DEFAULT_ID);
     user.setCreatedBy(DEFAULT_LOGIN);
@@ -607,7 +607,7 @@ class UserResourceIT
   }
 
   @Test
-  void testAuthorityEquals()
+  public void testAuthorityEquals()
   {
     Authority authorityA = new Authority();
     assertThat(authorityA).isEqualTo(authorityA);

@@ -26,14 +26,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @SpringBootTest(classes = CatinyUaaApp.class)
 @ExtendWith(RedisTestContainerExtension.class)
-class ExceptionTranslatorIT
+public class ExceptionTranslatorIT
 {
 
   @Autowired
   private MockMvc mockMvc;
 
   @Test
-  void testConcurrencyFailure() throws Exception
+  public void testConcurrencyFailure() throws Exception
   {
     mockMvc.perform(get("/api/exception-translator-test/concurrency-failure").with(csrf()))
       .andExpect(status().isConflict())
@@ -42,7 +42,7 @@ class ExceptionTranslatorIT
   }
 
   @Test
-  void testMethodArgumentNotValid() throws Exception
+  public void testMethodArgumentNotValid() throws Exception
   {
     mockMvc.perform(post("/api/exception-translator-test/method-argument").content("{}").contentType(MediaType.APPLICATION_JSON).with(csrf()))
       .andExpect(status().isBadRequest())
@@ -54,7 +54,7 @@ class ExceptionTranslatorIT
   }
 
   @Test
-  void testMissingServletRequestPartException() throws Exception
+  public void testMissingServletRequestPartException() throws Exception
   {
     mockMvc.perform(get("/api/exception-translator-test/missing-servlet-request-part").with(csrf()))
       .andExpect(status().isBadRequest())
@@ -63,7 +63,7 @@ class ExceptionTranslatorIT
   }
 
   @Test
-  void testMissingServletRequestParameterException() throws Exception
+  public void testMissingServletRequestParameterException() throws Exception
   {
     mockMvc.perform(get("/api/exception-translator-test/missing-servlet-request-parameter").with(csrf()))
       .andExpect(status().isBadRequest())
@@ -72,7 +72,7 @@ class ExceptionTranslatorIT
   }
 
   @Test
-  void testAccessDenied() throws Exception
+  public void testAccessDenied() throws Exception
   {
     mockMvc.perform(get("/api/exception-translator-test/access-denied").with(csrf()))
       .andExpect(status().isForbidden())
@@ -82,7 +82,7 @@ class ExceptionTranslatorIT
   }
 
   @Test
-  void testUnauthorized() throws Exception
+  public void testUnauthorized() throws Exception
   {
     mockMvc.perform(get("/api/exception-translator-test/unauthorized").with(csrf()))
       .andExpect(status().isUnauthorized())
@@ -93,7 +93,7 @@ class ExceptionTranslatorIT
   }
 
   @Test
-  void testMethodNotSupported() throws Exception
+  public void testMethodNotSupported() throws Exception
   {
     mockMvc.perform(post("/api/exception-translator-test/access-denied").with(csrf()))
       .andExpect(status().isMethodNotAllowed())
@@ -103,7 +103,7 @@ class ExceptionTranslatorIT
   }
 
   @Test
-  void testExceptionWithResponseStatus() throws Exception
+  public void testExceptionWithResponseStatus() throws Exception
   {
     mockMvc.perform(get("/api/exception-translator-test/response-status").with(csrf()))
       .andExpect(status().isBadRequest())
@@ -113,7 +113,7 @@ class ExceptionTranslatorIT
   }
 
   @Test
-  void testInternalServerError() throws Exception
+  public void testInternalServerError() throws Exception
   {
     mockMvc.perform(get("/api/exception-translator-test/internal-server-error").with(csrf()))
       .andExpect(status().isInternalServerError())

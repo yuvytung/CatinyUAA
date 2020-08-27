@@ -25,7 +25,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 @SpringBootTest(classes = CatinyUaaApp.class)
 @ExtendWith(RedisTestContainerExtension.class)
-class HibernateTimeZoneIT
+public class HibernateTimeZoneIT
 {
 
   @Autowired

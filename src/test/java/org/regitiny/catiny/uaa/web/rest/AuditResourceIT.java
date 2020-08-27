@@ -32,7 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = CatinyUaaApp.class)
 @ExtendWith(RedisTestContainerExtension.class)
 @Transactional
-class AuditResourceIT
+public class AuditResourceIT
 {
 
   private static final String SAMPLE_PRINCIPAL = "SAMPLE_PRINCIPAL";
@@ -59,7 +59,7 @@ class AuditResourceIT
   }
 
   @Test
-  void getAllAudits() throws Exception
+  public void getAllAudits() throws Exception
   {
     // Initialize the database
     auditEventRepository.save(auditEvent);
@@ -72,7 +72,7 @@ class AuditResourceIT
   }
 
   @Test
-  void getAudit() throws Exception
+  public void getAudit() throws Exception
   {
     // Initialize the database
     auditEventRepository.save(auditEvent);
@@ -85,7 +85,7 @@ class AuditResourceIT
   }
 
   @Test
-  void getAuditsByDate() throws Exception
+  public void getAuditsByDate() throws Exception
   {
     // Initialize the database
     auditEventRepository.save(auditEvent);
@@ -102,7 +102,7 @@ class AuditResourceIT
   }
 
   @Test
-  void getNonExistingAuditsByDate() throws Exception
+  public void getNonExistingAuditsByDate() throws Exception
   {
     // Initialize the database
     auditEventRepository.save(auditEvent);
@@ -119,7 +119,7 @@ class AuditResourceIT
   }
 
   @Test
-  void getNonExistingAudit() throws Exception
+  public void getNonExistingAudit() throws Exception
   {
     // Get the audit
     restAuditMockMvc.perform(get("/management/audits/{id}", Long.MAX_VALUE))
@@ -127,7 +127,7 @@ class AuditResourceIT
   }
 
   @Test
-  void testPersistentAuditEventEquals() throws Exception
+  public void testPersistentAuditEventEquals() throws Exception
   {
     TestUtil.equalsVerifier(PersistentAuditEvent.class);
     PersistentAuditEvent auditEvent1 = new PersistentAuditEvent();

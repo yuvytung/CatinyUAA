@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Unit tests for the {@link WebConfigurer} class.
  */
-class WebConfigurerTest
+public class WebConfigurerTest
 {
 
   private WebConfigurer webConfigurer;
@@ -52,7 +52,7 @@ class WebConfigurerTest
   }
 
   @Test
-  void testStartUpProdServletContext()
+  public void testStartUpProdServletContext() throws ServletException
   {
     env.setActiveProfiles(JHipsterConstants.SPRING_PROFILE_PRODUCTION);
     webConfigurer.onStartup(servletContext);
@@ -62,7 +62,7 @@ class WebConfigurerTest
   }
 
   @Test
-  void testStartUpDevServletContext()
+  public void testStartUpDevServletContext() throws ServletException
   {
     env.setActiveProfiles(JHipsterConstants.SPRING_PROFILE_DEVELOPMENT);
     webConfigurer.onStartup(servletContext);
@@ -72,7 +72,7 @@ class WebConfigurerTest
   }
 
   @Test
-  void testCorsFilterOnApiPath() throws Exception
+  public void testCorsFilterOnApiPath() throws Exception
   {
     props.getCors().setAllowedOrigins(Collections.singletonList("*"));
     props.getCors().setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
@@ -103,7 +103,7 @@ class WebConfigurerTest
   }
 
   @Test
-  void testCorsFilterOnOtherPath() throws Exception
+  public void testCorsFilterOnOtherPath() throws Exception
   {
     props.getCors().setAllowedOrigins(Collections.singletonList("*"));
     props.getCors().setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
@@ -123,7 +123,7 @@ class WebConfigurerTest
   }
 
   @Test
-  void testCorsFilterDeactivated() throws Exception
+  public void testCorsFilterDeactivated() throws Exception
   {
     props.getCors().setAllowedOrigins(null);
 
@@ -139,7 +139,7 @@ class WebConfigurerTest
   }
 
   @Test
-  void testCorsFilterDeactivated2() throws Exception
+  public void testCorsFilterDeactivated2() throws Exception
   {
     props.getCors().setAllowedOrigins(new ArrayList<>());
 

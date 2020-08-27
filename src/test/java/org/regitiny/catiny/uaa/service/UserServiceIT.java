@@ -41,7 +41,7 @@ import static org.mockito.Mockito.when;
 @SpringBootTest(classes = CatinyUaaApp.class)
 @ExtendWith(RedisTestContainerExtension.class)
 @Transactional
-class UserServiceIT
+public class UserServiceIT
 {
 
   private static final String DEFAULT_LOGIN = "johndoe";
@@ -97,7 +97,7 @@ class UserServiceIT
 
   @Test
   @Transactional
-  void assertThatUserMustExistToResetPassword()
+  public void assertThatUserMustExistToResetPassword()
   {
     userRepository.saveAndFlush(user);
     Optional<User> maybeUser = userService.requestPasswordReset("invalid.login@localhost");
@@ -112,7 +112,7 @@ class UserServiceIT
 
   @Test
   @Transactional
-  void assertThatOnlyActivatedUserCanRequestPasswordReset()
+  public void assertThatOnlyActivatedUserCanRequestPasswordReset()
   {
     user.setActivated(false);
     userRepository.saveAndFlush(user);
@@ -124,7 +124,7 @@ class UserServiceIT
 
   @Test
   @Transactional
-  void assertThatResetKeyMustNotBeOlderThan24Hours()
+  public void assertThatResetKeyMustNotBeOlderThan24Hours()
   {
     Instant daysAgo = Instant.now().minus(25, ChronoUnit.HOURS);
     String resetKey = RandomUtil.generateResetKey();
@@ -140,7 +140,7 @@ class UserServiceIT
 
   @Test
   @Transactional
-  void assertThatResetKeyMustBeValid()
+  public void assertThatResetKeyMustBeValid()
   {
     Instant daysAgo = Instant.now().minus(25, ChronoUnit.HOURS);
     user.setActivated(true);
@@ -155,7 +155,7 @@ class UserServiceIT
 
   @Test
   @Transactional
-  void assertThatUserCanResetPassword()
+  public void assertThatUserCanResetPassword()
   {
     String oldPassword = user.getPassword();
     Instant daysAgo = Instant.now().minus(2, ChronoUnit.HOURS);
@@ -176,7 +176,7 @@ class UserServiceIT
 
   @Test
   @Transactional
-  void assertThatNotActivatedUsersWithNotNullActivationKeyCreatedBefore3DaysAreDeleted()
+  public void assertThatNotActivatedUsersWithNotNullActivationKeyCreatedBefore3DaysAreDeleted()
   {
     Instant now = Instant.now();
     when(dateTimeProvider.getNow()).thenReturn(Optional.of(now.minus(4, ChronoUnit.DAYS)));
@@ -198,7 +198,7 @@ class UserServiceIT
 
   @Test
   @Transactional
-  void assertThatNotActivatedUsersWithNullActivationKeyCreatedBefore3DaysAreNotDeleted()
+  public void assertThatNotActivatedUsersWithNullActivationKeyCreatedBefore3DaysAreNotDeleted()
   {
     Instant now = Instant.now();
     when(dateTimeProvider.getNow()).thenReturn(Optional.of(now.minus(4, ChronoUnit.DAYS)));
@@ -219,7 +219,7 @@ class UserServiceIT
 
   @Test
   @Transactional
-  void assertThatAnonymousUserIsNotGet()
+  public void assertThatAnonymousUserIsNotGet()
   {
     user.setLogin(Constants.ANONYMOUS_USER);
     if (!userRepository.findOneByLogin(Constants.ANONYMOUS_USER).isPresent())

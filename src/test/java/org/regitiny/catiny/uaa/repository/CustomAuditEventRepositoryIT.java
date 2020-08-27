@@ -33,7 +33,7 @@ import static org.regitiny.catiny.uaa.repository.CustomAuditEventRepository.EVEN
 @SpringBootTest(classes = CatinyUaaApp.class)
 @ExtendWith(RedisTestContainerExtension.class)
 @Transactional
-class CustomAuditEventRepositoryIT
+public class CustomAuditEventRepositoryIT
 {
 
   @Autowired
@@ -71,7 +71,7 @@ class CustomAuditEventRepositoryIT
   }
 
   @Test
-  void addAuditEvent()
+  public void addAuditEvent()
   {
     Map<String, Object> data = new HashMap<>();
     data.put("test-key", "test-value");
@@ -89,7 +89,7 @@ class CustomAuditEventRepositoryIT
   }
 
   @Test
-  void addAuditEventTruncateLargeData()
+  public void addAuditEventTruncateLargeData()
   {
     Map<String, Object> data = new HashMap<>();
     StringBuilder largeData = new StringBuilder();
@@ -114,7 +114,7 @@ class CustomAuditEventRepositoryIT
   }
 
   @Test
-  void testAddEventWithWebAuthenticationDetails()
+  public void testAddEventWithWebAuthenticationDetails()
   {
     HttpSession session = new MockHttpSession(null, "test-session-id");
     MockHttpServletRequest request = new MockHttpServletRequest();
@@ -133,7 +133,7 @@ class CustomAuditEventRepositoryIT
   }
 
   @Test
-  void testAddEventWithNullData()
+  public void testAddEventWithNullData()
   {
     Map<String, Object> data = new HashMap<>();
     data.put("test-key", null);
@@ -146,7 +146,7 @@ class CustomAuditEventRepositoryIT
   }
 
   @Test
-  void addAuditEventWithAnonymousUser()
+  public void addAuditEventWithAnonymousUser()
   {
     Map<String, Object> data = new HashMap<>();
     data.put("test-key", "test-value");
@@ -157,7 +157,7 @@ class CustomAuditEventRepositoryIT
   }
 
   @Test
-  void addAuditEventWithAuthorizationFailureType()
+  public void addAuditEventWithAuthorizationFailureType()
   {
     Map<String, Object> data = new HashMap<>();
     data.put("test-key", "test-value");

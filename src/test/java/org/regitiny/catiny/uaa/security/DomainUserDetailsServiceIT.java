@@ -26,7 +26,7 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 @SpringBootTest(classes = CatinyUaaApp.class)
 @ExtendWith(RedisTestContainerExtension.class)
 @Transactional
-class DomainUserDetailsServiceIT
+public class DomainUserDetailsServiceIT
 {
 
   private static final String USER_ONE_LOGIN = "test-user-one";
@@ -77,7 +77,7 @@ class DomainUserDetailsServiceIT
   }
 
   @Test
-  void assertThatUserCanBeFoundByLogin()
+  public void assertThatUserCanBeFoundByLogin()
   {
     UserDetails userDetails = domainUserDetailsService.loadUserByUsername(USER_ONE_LOGIN);
     assertThat(userDetails).isNotNull();
@@ -85,7 +85,7 @@ class DomainUserDetailsServiceIT
   }
 
   @Test
-  void assertThatUserCanBeFoundByLoginIgnoreCase()
+  public void assertThatUserCanBeFoundByLoginIgnoreCase()
   {
     UserDetails userDetails = domainUserDetailsService.loadUserByUsername(USER_ONE_LOGIN.toUpperCase(Locale.ENGLISH));
     assertThat(userDetails).isNotNull();
@@ -93,7 +93,7 @@ class DomainUserDetailsServiceIT
   }
 
   @Test
-  void assertThatUserCanBeFoundByEmail()
+  public void assertThatUserCanBeFoundByEmail()
   {
     UserDetails userDetails = domainUserDetailsService.loadUserByUsername(USER_TWO_EMAIL);
     assertThat(userDetails).isNotNull();
@@ -101,7 +101,7 @@ class DomainUserDetailsServiceIT
   }
 
   @Test
-  void assertThatUserCanBeFoundByEmailIgnoreCase()
+  public void assertThatUserCanBeFoundByEmailIgnoreCase()
   {
     UserDetails userDetails = domainUserDetailsService.loadUserByUsername(USER_TWO_EMAIL.toUpperCase(Locale.ENGLISH));
     assertThat(userDetails).isNotNull();
@@ -109,7 +109,7 @@ class DomainUserDetailsServiceIT
   }
 
   @Test
-  void assertThatEmailIsPrioritizedOverLogin()
+  public void assertThatEmailIsPrioritizedOverLogin()
   {
     UserDetails userDetails = domainUserDetailsService.loadUserByUsername(USER_ONE_EMAIL);
     assertThat(userDetails).isNotNull();
@@ -117,7 +117,7 @@ class DomainUserDetailsServiceIT
   }
 
   @Test
-  void assertThatUserNotActivatedExceptionIsThrownForNotActivatedUsers()
+  public void assertThatUserNotActivatedExceptionIsThrownForNotActivatedUsers()
   {
     assertThatExceptionOfType(UserNotActivatedException.class).isThrownBy(
       () -> domainUserDetailsService.loadUserByUsername(USER_THREE_LOGIN));

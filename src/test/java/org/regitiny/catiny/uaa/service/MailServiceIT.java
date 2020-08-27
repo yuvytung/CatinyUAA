@@ -31,7 +31,6 @@ import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -82,7 +81,7 @@ public class MailServiceIT
   }
 
   @Test
-  void testSendEmail() throws Exception
+  public void testSendEmail() throws Exception
   {
     mailService.sendEmail("john.doe@example.com", "testSubject", "testContent", false, false);
     verify(javaMailSender).send(messageCaptor.capture());
@@ -96,7 +95,7 @@ public class MailServiceIT
   }
 
   @Test
-  void testSendHtmlEmail() throws Exception
+  public void testSendHtmlEmail() throws Exception
   {
     mailService.sendEmail("john.doe@example.com", "testSubject", "testContent", false, true);
     verify(javaMailSender).send(messageCaptor.capture());
@@ -110,7 +109,7 @@ public class MailServiceIT
   }
 
   @Test
-  void testSendMultipartEmail() throws Exception
+  public void testSendMultipartEmail() throws Exception
   {
     mailService.sendEmail("john.doe@example.com", "testSubject", "testContent", true, false);
     verify(javaMailSender).send(messageCaptor.capture());
@@ -128,7 +127,7 @@ public class MailServiceIT
   }
 
   @Test
-  void testSendMultipartHtmlEmail() throws Exception
+  public void testSendMultipartHtmlEmail() throws Exception
   {
     mailService.sendEmail("john.doe@example.com", "testSubject", "testContent", true, true);
     verify(javaMailSender).send(messageCaptor.capture());
@@ -146,7 +145,7 @@ public class MailServiceIT
   }
 
   @Test
-  void testSendEmailFromTemplate() throws Exception
+  public void testSendEmailFromTemplate() throws Exception
   {
     User user = new User();
     user.setLogin("john");
@@ -158,12 +157,12 @@ public class MailServiceIT
     assertThat(message.getSubject()).isEqualTo("test title");
     assertThat(message.getAllRecipients()[0].toString()).isEqualTo(user.getEmail());
     assertThat(message.getFrom()[0].toString()).isEqualTo(jHipsterProperties.getMail().getFrom());
-    assertThat(message.getContent().toString()).isEqualToNormalizingNewlines("<html>test title, http://127.0.0.1:10500, john</html>\n");
+    assertThat(message.getContent().toString()).isEqualToNormalizingNewlines("<html>test title, http://127.0.0.1:8080, john</html>\n");
     assertThat(message.getDataHandler().getContentType()).isEqualTo("text/html;charset=UTF-8");
   }
 
   @Test
-  void testSendActivationEmail() throws Exception
+  public void testSendActivationEmail() throws Exception
   {
     User user = new User();
     user.setLangKey(Constants.DEFAULT_LANGUAGE);
@@ -179,7 +178,7 @@ public class MailServiceIT
   }
 
   @Test
-  void testCreationEmail() throws Exception
+  public void testCreationEmail() throws Exception
   {
     User user = new User();
     user.setLangKey(Constants.DEFAULT_LANGUAGE);
@@ -195,7 +194,7 @@ public class MailServiceIT
   }
 
   @Test
-  void testSendPasswordResetMail() throws Exception
+  public void testSendPasswordResetMail() throws Exception
   {
     User user = new User();
     user.setLangKey(Constants.DEFAULT_LANGUAGE);
@@ -211,7 +210,7 @@ public class MailServiceIT
   }
 
   @Test
-  void testSendEmailWithException()
+  public void testSendEmailWithException()
   {
     doThrow(MailSendException.class).when(javaMailSender).send(any(MimeMessage.class));
     try
@@ -225,7 +224,7 @@ public class MailServiceIT
   }
 
   @Test
-  void testSendLocalizedEmailForAllSupportedLanguages() throws Exception
+  public void testSendLocalizedEmailForAllSupportedLanguages() throws Exception
   {
     User user = new User();
     user.setLogin("john");
@@ -239,10 +238,9 @@ public class MailServiceIT
 
       String propertyFilePath = "i18n/messages_" + getJavaLocale(langKey) + ".properties";
       URL resource = this.getClass().getClassLoader().getResource(propertyFilePath);
-        assert resource != null;
-        File file = new File(new URI(resource.getFile()).getPath());
+      File file = new File(new URI(resource.getFile()).getPath());
       Properties properties = new Properties();
-      properties.load(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8));
+      properties.load(new InputStreamReader(new FileInputStream(file), Charset.forName("UTF-8")));
 
       String emailTitle = (String) properties.get("email.test.title");
       assertThat(message.getSubject()).isEqualTo(emailTitle);

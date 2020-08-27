@@ -74,7 +74,7 @@ public class OAuth2TokenMockUtil
   public static class OAuth2PostProcessor implements RequestPostProcessor
   {
 
-    private final String token;
+    private String token;
 
     public OAuth2PostProcessor(String token)
     {

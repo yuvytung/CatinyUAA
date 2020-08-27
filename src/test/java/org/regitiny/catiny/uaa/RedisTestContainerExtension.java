@@ -12,18 +12,18 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class RedisTestContainerExtension implements BeforeAllCallback
 {
 
-  private static final AtomicBoolean started = new AtomicBoolean(false);
+  private static AtomicBoolean started = new AtomicBoolean(false);
 
   private static GenericContainer redis;
 
   @DynamicPropertySource
   static void redisProperties(DynamicPropertyRegistry registry)
   {
-    registry.add("jhipster.cache.redis.server", () -> "redis://" + redis.getContainerIpAddress() + ":" + redis.getMappedPort(13500));
+    registry.add("jhipster.cache.redis.server", () -> "redis://" + redis.getContainerIpAddress() + ":" + redis.getMappedPort(6379));
   }
 
   @Override
-  public void beforeAll(ExtensionContext extensionContext)
+  public void beforeAll(ExtensionContext extensionContext) throws Exception
   {
     if (!started.get())
     {

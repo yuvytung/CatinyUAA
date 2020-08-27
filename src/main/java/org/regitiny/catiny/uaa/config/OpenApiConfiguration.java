@@ -31,7 +31,7 @@ public class OpenApiConfiguration
   public SwaggerCustomizer noApiFirstCustomizer()
   {
     return docket -> docket.select()
-      .apis(Predicates.not(RequestHandlerSelectors.basePackage("org.regitiny.catiny.uaa.web.api")::apply));
+      .apis(Predicates.not(RequestHandlerSelectors.basePackage("org.regitiny.catiny.uaa.web.api")));
   }
 
   @Bean

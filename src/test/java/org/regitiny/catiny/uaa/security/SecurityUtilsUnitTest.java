@@ -16,11 +16,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Test class for the {@link SecurityUtils} utility class.
  */
-class SecurityUtilsUnitTest
+public class SecurityUtilsUnitTest
 {
 
   @Test
-  void testGetCurrentUserLogin()
+  public void testGetCurrentUserLogin()
   {
     SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
     securityContext.setAuthentication(new UsernamePasswordAuthenticationToken("admin", "admin"));
@@ -30,7 +30,7 @@ class SecurityUtilsUnitTest
   }
 
   @Test
-  void testIsAuthenticated()
+  public void testIsAuthenticated()
   {
     SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
     securityContext.setAuthentication(new UsernamePasswordAuthenticationToken("admin", "admin"));
@@ -40,7 +40,7 @@ class SecurityUtilsUnitTest
   }
 
   @Test
-  void testAnonymousIsNotAuthenticated()
+  public void testAnonymousIsNotAuthenticated()
   {
     SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
     Collection<GrantedAuthority> authorities = new ArrayList<>();
@@ -52,7 +52,7 @@ class SecurityUtilsUnitTest
   }
 
   @Test
-  void testIsCurrentUserInRole()
+  public void testIsCurrentUserInRole()
   {
     SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
     Collection<GrantedAuthority> authorities = new ArrayList<>();
