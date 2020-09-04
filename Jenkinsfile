@@ -82,6 +82,20 @@ node {
 		}
 	}
 
+	stage('chack kafka')
+	{
+		try
+		{
+			sh "docker container inspect docker_zookeeper_1"
+			sh "docker container inspect docker_kafka_1"
+		}
+		catch (err)
+		{
+			echo "kafka or zookeeper is not running"
+			sh "docker-compose -f src/main/docker/kafka.yml up -d"
+		}
+	}
+
 	stage('backend tests')
 	{
 		try
