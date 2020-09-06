@@ -82,7 +82,7 @@ node {
 		}
 	}
 
-	stage('chack kafka')
+	stage('check kafka')
 	{
 		try
 		{
