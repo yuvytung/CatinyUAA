@@ -8,6 +8,7 @@ node {
 
 	stage('check java , node , docker , docker-compose')
 	{
+		sh "pwd"
 		sh "java -version"
 		sh "node -v"
 		sh "npm -v"
@@ -21,87 +22,35 @@ node {
 		sh "./gradlew clean --no-daemon"
 	}
 
-	stage('nohttp')
-	{
-		sh "./gradlew checkstyleNohttp --no-daemon"
-	}
-
-	stage('check jhipster-registry')
-	{
-		try
-		{
-			sh "docker container inspect docker_jhipster-registry_1"
-		}
-		catch (err)
-		{
-			echo "docker_jhipster-registry_1 is not running"
-			sh "docker-compose -f src/main/docker/jhipster-registry.yml up -d"
-		}
-	}
-
 	stage('check integration')
 	{
 		try
 		{
-			sh 'docker container inspect docker_catinyuaa-mariadb_1'
-		}
-		catch (err)
-		{
-			echo 'mariadb is not running'
-			sh "docker-compose -f src/main/docker/mariadb.yml up -d"
-		}
-		try
-		{
-			sh 'docker container inspect docker_catinyuaa-elasticsearch_1'
-		}
-		catch (err)
-		{
-			echo 'mariadb is not running'
-			sh "docker-compose -f src/main/docker/elasticsearch.yml up -d"
-		}
-		try
-		{
-			sh 'docker container inspect docker_catinyuaa-redis_1'
-		}
-		catch (err)
-		{
-			echo 'mariadb is not running'
-			sh "docker-compose -f src/main/docker/redis.yml up -d"
-		}
-
-		try
-		{
 			sh 'docker container inspect docker_catinyuaa-elasticsearch_1'
 			sh 'docker container inspect docker_catinyuaa-mariadb_1'
 			sh 'docker container inspect docker_catinyuaa-redis_1'
-		}
-		catch (err)
-		{
-			echo 'Unable to start the required containers'
-			throw  err
-		}
-	}
-
-	stage('check kafka')
-	{
-		try
-		{
+			sh "docker container inspect docker_jhipster-registry_1"
 			sh "docker container inspect docker_zookeeper_1"
 			sh "docker container inspect docker_kafka_1"
 		}
-		catch (err)
+		catch (ignored)
 		{
-			echo "kafka or zookeeper is not running"
-			sh "docker-compose -f src/main/docker/kafka.yml up -d"
+			sh "docker-compose -f src/main/docker/app-prod.yml up -d"
+			echo 'the necessary services are not running . try start it'
 		}
+	}
+
+	stage('nohttp')
+	{
+		sh "./gradlew checkstyleNohttp --no-daemon"
 	}
 
 	stage('backend tests')
 	{
 		try
 		{
-			sh "./gradlew build --no-daemon"
-		//	sh "./gradlew test integrationTest -PnodeInstall --no-daemon"
+//			sh "./gradlew build --no-daemon"
+			sh "./gradlew test integrationTest -PnodeInstall --no-daemon"
 		}
 		catch (err)
 		{
@@ -113,19 +62,6 @@ node {
 		}
 	}
 
-	stage('packaging')
-	{
-		sh "./gradlew bootJar -x test -Pprod -PnodeInstall --no-daemon"
-		archiveArtifacts artifacts: '**/build/libs/*.jar', fingerprint: true
-	}
-
-//    todo sonar
-//    stage('quality analysis') {
-//        withSonarQubeEnv('catiny-uaa-sonar') {
-//            sh "./gradlew sonarqube --no-daemon"
-//        }
-//    }
-
 	stage('build docker catiny-uaa')
 	{
 		sh "./gradlew bootJar -Pprod jibDockerBuild --no-daemon"
@@ -133,7 +69,7 @@ node {
 
 	stage('start docker catiny-uaa')
 	{
-		sh "docker-compose -f src/main/docker/app.yml up -d"
+		sh "docker-compose -f src/main/docker/catiny-uaa.yml up -d"
 		echo "Successful deployment"
 	}
 
