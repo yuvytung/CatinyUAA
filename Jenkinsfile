@@ -31,12 +31,13 @@ node {
 			sh 'docker container inspect docker_catinyuaa-redis_1'
 			sh "docker container inspect docker_jhipster-registry_1"
 			sh "docker container inspect docker_zookeeper_1"
+			sleep(10000)
 			sh "docker container inspect docker_kafka_1"
 		}
 		catch (ignored)
 		{
-			sh "docker-compose -f src/main/docker/app-prod.yml up -d"
 			echo 'the necessary services are not running . try start it'
+			sh "docker-compose -f src/main/docker/app-prod.yml up -d"
 		}
 	}
 
