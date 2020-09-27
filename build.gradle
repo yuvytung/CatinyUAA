@@ -219,6 +219,9 @@ repositories {
     mavenCentral()
     jcenter()
     //jhipster-needle-gradle-repositories - JHipster will add additional repositories
+    maven {
+        url "${regitiny_repository}"
+    }
 }
 
 dependencies {
@@ -321,6 +324,10 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.12'
     annotationProcessor 'org.projectlombok:lombok:1.18.12'
     compile group: 'org.json', name: 'json', version: '20200518'
+
+    //local remote yuvytung
+    implementation 'org.regitiny:tools:1.0-20200927.111024-1'
+
 }
 
 if (project.hasProperty("gae")) {

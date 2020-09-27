@@ -69,7 +69,7 @@
   "dto": "mapstruct",
   "searchEngine": "elasticsearch",
   "service": "serviceImpl",
-  "entityTableName": "master_user",
+  "entityTableName": "master",
   "databaseType": "sql",
   "readOnly": false,
   "jpaMetamodelFiltering": true,

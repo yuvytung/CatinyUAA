@@ -92,6 +92,7 @@ public class CacheConfiguration
       createCache(cm, org.regitiny.catiny.uaa.domain.User.class.getName(), jcacheConfiguration);
       createCache(cm, org.regitiny.catiny.uaa.domain.Authority.class.getName(), jcacheConfiguration);
       createCache(cm, org.regitiny.catiny.uaa.domain.User.class.getName() + ".authorities", jcacheConfiguration);
+      createCache(cm, org.regitiny.catiny.uaa.domain.Master.class.getName(), jcacheConfiguration);
       // jhipster-needle-redis-add-entry
     };
   }
