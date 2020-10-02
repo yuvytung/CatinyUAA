@@ -19,7 +19,7 @@ public class MasterMapperTest {
     @Test
     public void testEntityFromId() {
         UUID masterId = UUID.randomUUID();
-        assertThat(masterMapper.fromId(masterId).getMasterId()).isEqualTo(masterId);
-        assertThat(masterMapper.fromId(null)).isNull();
+        assertThat(masterMapper.fromMasterId(masterId).getMasterId()).isEqualTo(masterId);
+        assertThat(masterMapper.fromMasterId(null)).isNull();
     }
 }
