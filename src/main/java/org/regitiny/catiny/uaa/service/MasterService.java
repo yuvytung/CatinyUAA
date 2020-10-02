@@ -1,11 +1,11 @@
 package org.regitiny.catiny.uaa.service;
 
+import org.regitiny.catiny.uaa.domain.User;
 import org.regitiny.catiny.uaa.service.dto.MasterDTO;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -13,6 +13,14 @@ import java.util.UUID;
  */
 public interface MasterService
 {
+  /**
+   * create a new master after create user.
+   *
+   * @param user this is entity to get info put to master.
+   * @return masterDTO.
+   */
+  MasterDTO createMasterWhileRegisterUser(User user) throws Exception;
+
 
   /**
    * Save a master.

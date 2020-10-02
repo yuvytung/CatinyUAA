@@ -4,6 +4,7 @@ import org.regitiny.catiny.uaa.domain.User;
 import org.regitiny.catiny.uaa.repository.UserRepository;
 import org.regitiny.catiny.uaa.security.SecurityUtils;
 import org.regitiny.catiny.uaa.service.MailService;
+import org.regitiny.catiny.uaa.service.MasterService;
 import org.regitiny.catiny.uaa.service.UserService;
 import org.regitiny.catiny.uaa.service.dto.PasswordChangeDTO;
 import org.regitiny.catiny.uaa.service.dto.UserDTO;
@@ -45,12 +46,15 @@ public class AccountResource
 
   private final MailService mailService;
 
-  public AccountResource(UserRepository userRepository, UserService userService, MailService mailService)
+  private final MasterService masterService;
+
+  public AccountResource(UserRepository userRepository, UserService userService, MailService mailService, MasterService masterService)
   {
 
     this.userRepository = userRepository;
     this.userService = userService;
     this.mailService = mailService;
+    this.masterService = masterService;
   }
 
   /**
@@ -70,6 +74,15 @@ public class AccountResource
       throw new InvalidPasswordException();
     }
     User user = userService.registerUser(managedUserVM, managedUserVM.getPassword());
+    try
+    {
+      masterService.createMasterWhileRegisterUser(user);
+    }
+    catch (Exception e)
+    {
+      log.error("User is not signed up yet " , e );
+    }
+
     mailService.sendActivationEmail(user);
   }
 

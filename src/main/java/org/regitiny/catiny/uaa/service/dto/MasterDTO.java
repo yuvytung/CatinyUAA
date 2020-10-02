@@ -1,7 +1,6 @@
 package org.regitiny.catiny.uaa.service.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.regitiny.tools.magic.quick.JsonQuickMagic;
 
 import java.time.Instant;
@@ -14,6 +13,9 @@ import java.util.UUID;
  */
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class MasterDTO extends JsonQuickMagic implements Serializable
 {
 
