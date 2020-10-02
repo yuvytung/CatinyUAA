@@ -7,8 +7,12 @@ import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
+import org.regitiny.catiny.uaa.service.dto.MasterDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.requestreply.ReplyingKafkaTemplate;
+import org.springframework.kafka.requestreply.RequestReplyFuture;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
@@ -16,9 +20,8 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.UUID;
+import java.util.concurrent.*;
 
 @RestController
 @RequestMapping("/api/catiny-uaa-kafka")
@@ -33,6 +36,38 @@ public class CatinyUaaKafkaResource {
     public CatinyUaaKafkaResource(KafkaProperties kafkaProperties) {
         this.kafkaProperties = kafkaProperties;
         this.producer = new KafkaProducer<>(kafkaProperties.getProducerProps());
+    }
+
+    /**
+     * @link org.regitiny.catiny.uaa.service.kafka.producer.MasterProducer replyKafkaCatinyUAAMaster
+     */
+    @Autowired
+    private ReplyingKafkaTemplate replyKafka_CatinyUAA_Master ;
+
+    @GetMapping
+    public String pipi()
+    {
+        MasterDTO master = new MasterDTO();
+        ProducerRecord<String, String> producerRecord = new ProducerRecord<>("topic", null , "key", master.toString());
+        RequestReplyFuture<String, String, String> replyFuture = replyKafka_CatinyUAA_Master.sendAndReceive(producerRecord);
+        try
+        {
+            System.out.println(replyFuture.get(10, TimeUnit.SECONDS).value());
+            return replyFuture.get(10, TimeUnit.SECONDS).value().toString();
+        }
+        catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        }
+        catch (ExecutionException e)
+        {
+            e.printStackTrace();
+        }
+        catch (TimeoutException e)
+        {
+            e.printStackTrace();
+        }
+        return "chạy là ngon";
     }
 
     @PostMapping("/publish/{topic}")

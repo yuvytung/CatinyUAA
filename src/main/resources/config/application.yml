@@ -187,16 +187,21 @@ jhipster:
     contact-email:
     license: unlicensed
     license-url:
+#sau khi copy cần sủa lại thuộc tính cấu hình :kafka.consumer.group.id , kafka.producer.services.catiny-uaa.reply-topic
+#import org.regitiny.catiny.***.service.kafka.Producer trong <Entity>Producer.java cũng cần sửa lại cho đúng;
 kafka:
-  bootstrap-servers: localhost:10400
+  #  bootstrap-servers: localhost:10400
   consumer:
     key.deserializer: org.apache.kafka.common.serialization.StringDeserializer
-    value.deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    value.deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
     group.id: catiny-uaa
-    auto.offset.reset: earliest
+    auto.offset.reset: latest
   producer:
     key.serializer: org.apache.kafka.common.serialization.StringSerializer
-    value.serializer: org.apache.kafka.common.serialization.StringSerializer
+    value.serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    services:
+      catiny-uaa:
+        reply-topic: reply-CatinyMessenger-Master
 # ===================================================================
 # Application specific properties
 # Add your own application properties here, see the ApplicationProperties class

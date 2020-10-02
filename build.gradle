@@ -324,6 +324,7 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.12'
     annotationProcessor 'org.projectlombok:lombok:1.18.12'
     compile group: 'org.json', name: 'json', version: '20200518'
+    implementation "org.springframework.kafka:spring-kafka"
 
     //local remote yuvytung
     implementation 'org.regitiny:tools:1.0-20200927.111024-1'
