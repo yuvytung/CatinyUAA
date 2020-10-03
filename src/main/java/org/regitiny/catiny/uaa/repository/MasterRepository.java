@@ -20,4 +20,8 @@ public interface MasterRepository extends JpaRepository<Master, UUID>, JpaSpecif
   List<Master> findByUserId(Long userId);
 
   Boolean deleteOneByMasterId(UUID masterId);
+
+  Master findOneByUserIdAndGroupIdAndCompanyId(Long userId, Long groupId, Long companyId);
+
+  List<Master> findByUserName(String UserName);
 }

@@ -6,6 +6,7 @@ import org.regitiny.catiny.uaa.security.SecurityUtils;
 import org.regitiny.catiny.uaa.service.MailService;
 import org.regitiny.catiny.uaa.service.MasterService;
 import org.regitiny.catiny.uaa.service.UserService;
+import org.regitiny.catiny.uaa.service.dto.MasterDTO;
 import org.regitiny.catiny.uaa.service.dto.PasswordChangeDTO;
 import org.regitiny.catiny.uaa.service.dto.UserDTO;
 import org.regitiny.catiny.uaa.web.rest.errors.*;
@@ -76,7 +77,7 @@ public class AccountResource
     User user = userService.registerUser(managedUserVM, managedUserVM.getPassword());
     try
     {
-      masterService.createMasterWhileRegisterUser(user);
+      masterService.createMasterWhenRegisterUser(user);
     }
     catch (Exception e)
     {
@@ -152,6 +153,10 @@ public class AccountResource
     }
     userService.updateUser(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getEmail(),
       userDTO.getLangKey(), userDTO.getImageUrl());
+
+    MasterDTO masterDTO = masterService.updateMasterWhenUpdateUser(user.get());
+
+    log.debug("after update master = {}" ,masterDTO);
   }
 
   /**

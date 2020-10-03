@@ -44,20 +44,22 @@ public class MasterServiceImpl implements MasterService
   }
 
   @Override
-  public MasterDTO createMasterWhileRegisterUser(User user) throws NullPointerException
+  public MasterDTO createMasterWhenRegisterUser(User user) throws NullPointerException
   {
 
     if (Objects.isNull(user.getId()))
       throw new NullPointerException("this user id is never null");
-
-
 
     Long userId = user.getId();
     UUID masterId = UUID.randomUUID();
 
     String firstName = Objects.nonNull(user.getFirstName()) ? user.getFirstName() : StringPool.BLANK;
     String lastName = Objects.nonNull(user.getLastName()) ? user.getLastName() : StringPool.BLANK;
-    String masterUsername = lastName + StringPool.SPACE + firstName;
+    String masterUsername ;
+    if (firstName.equals(StringPool.BLANK) && lastName.equals(StringPool.BLANK))
+      masterUsername = lastName + StringPool.SPACE + firstName;
+    else
+      masterUsername = firstName + lastName;
     masterUsername = masterUsername == StringPool.SPACE ? user.getLogin() : masterUsername;
 
     String email = Objects.nonNull(user.getEmail()) ? user.getEmail() : StringPool.BLANK;
@@ -68,13 +70,45 @@ public class MasterServiceImpl implements MasterService
     String companyName = StringPool.BLANK;
     String groupName = StringPool.BLANK;
 
-    String userName = masterUsername;
+    String userName = user.getLogin();
 
     MasterDTO masterDTO = MasterDTO.builder().masterId(masterId).userId(userId).masterUserName(masterUsername).email(email).
       createdDate(createdInstant).imageUrl(imageUrl).companyId(companyId).groupId(groupId).companyName(companyName).
       groupName(groupName).userName(userName).build();
 
     log.debug("masterDTO after set value",masterDTO);
+    return save(masterDTO);
+  }
+
+  @Override
+  public MasterDTO updateMasterWhenUpdateUser(User user) throws NullPointerException
+  {
+
+    if (Objects.isNull(user.getId()))
+      throw new NullPointerException("this user id is never null");
+
+    MasterDTO masterDTO = fetchOneByU_G_C(user.getId(),0L,0L);
+
+    if (Objects.nonNull(user.getFirstName())||Objects.nonNull(user.getLastName()))
+    {
+      String firstName = Objects.nonNull(user.getFirstName()) ? user.getFirstName() : StringPool.BLANK;
+      String lastName = Objects.nonNull(user.getLastName()) ? user.getLastName() : StringPool.BLANK;
+      String masterUsername;
+      if (!firstName.equals(StringPool.BLANK) && !lastName.equals(StringPool.BLANK))
+        masterUsername = lastName + StringPool.SPACE + firstName;
+      else
+        masterUsername = firstName + lastName;
+
+      masterDTO.setUserName(user.getLogin());
+      masterDTO.setMasterUserName(masterUsername);
+    }
+
+    if (Objects.nonNull(user.getEmail()))
+      masterDTO.setEmail(user.getEmail());
+    if (Objects.nonNull(user.getImageUrl()))
+      masterDTO.setImageUrl(user.getImageUrl());
+
+    log.debug("masterDTO after set value: ",masterDTO);
     return save(masterDTO);
   }
 
@@ -121,5 +155,12 @@ public class MasterServiceImpl implements MasterService
     log.debug("Request to search for a page of Masters for query {}", query);
     return masterSearchRepository.search(queryStringQuery(query), pageable)
       .map(masterMapper::toDto);
+  }
+
+  @Override
+  public MasterDTO fetchOneByU_G_C(Long userId, Long groupId, Long companyId)
+  {
+    Master master = masterRepository.findOneByUserIdAndGroupIdAndCompanyId(userId, groupId , companyId);
+    return masterMapper.toDto(master);
   }
 }

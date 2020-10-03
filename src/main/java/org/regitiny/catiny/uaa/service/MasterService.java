@@ -19,7 +19,10 @@ public interface MasterService
    * @param user this is entity to get info put to master.
    * @return masterDTO.
    */
-  MasterDTO createMasterWhileRegisterUser(User user) throws Exception;
+  MasterDTO createMasterWhenRegisterUser(User user) throws Exception;
+
+
+  MasterDTO updateMasterWhenUpdateUser(User user) throws NullPointerException;
 
 
   /**
@@ -65,4 +68,15 @@ public interface MasterService
    * @return the list of entities.
    */
   Page<MasterDTO> search(String query, Pageable pageable);
+
+
+  /**
+   * get only one master user by userId , groupId , companyId
+   *
+   * @param userId
+   * @param groupId
+   * @param companyId
+   * @return
+   */
+  MasterDTO fetchOneByU_G_C(Long userId, Long groupId, Long companyId);
 }
