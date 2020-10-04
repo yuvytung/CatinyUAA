@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -60,10 +61,11 @@ public class MasterServiceImpl implements MasterService
       masterUsername = lastName + StringPool.SPACE + firstName;
     else
       masterUsername = firstName + lastName;
-    masterUsername = masterUsername == StringPool.SPACE ? user.getLogin() : masterUsername;
+    masterUsername = masterUsername.equals(StringPool.SPACE) ? user.getLogin() : masterUsername;
 
     String email = Objects.nonNull(user.getEmail()) ? user.getEmail() : StringPool.BLANK;
-    Instant createdInstant = Objects.nonNull(user.getCreatedDate()) ? user.getCreatedDate() : null;
+    Instant createDate = Objects.nonNull(user.getCreatedDate()) ? user.getCreatedDate() : null;
+    Instant modifiedDate = Objects.nonNull(user.getLastModifiedDate()) ? user.getLastModifiedDate() : null;
     String imageUrl = Objects.nonNull(user.getImageUrl()) ? user.getImageUrl() : StringPool.BLANK;
     Long companyId = 0L;
     Long groupId = 0L;
@@ -73,10 +75,10 @@ public class MasterServiceImpl implements MasterService
     String userName = user.getLogin();
 
     MasterDTO masterDTO = MasterDTO.builder().masterId(masterId).userId(userId).masterUserName(masterUsername).email(email).
-      createdDate(createdInstant).imageUrl(imageUrl).companyId(companyId).groupId(groupId).companyName(companyName).
+      createdDate(createDate).modifiedDate(modifiedDate).imageUrl(imageUrl).companyId(companyId).groupId(groupId).companyName(companyName).
       groupName(groupName).userName(userName).build();
 
-    log.debug("masterDTO after set value",masterDTO);
+    log.debug("masterDTO after set . masterDTO= {}",masterDTO);
     return save(masterDTO);
   }
 
@@ -87,7 +89,7 @@ public class MasterServiceImpl implements MasterService
     if (Objects.isNull(user.getId()))
       throw new NullPointerException("this user id is never null");
 
-    MasterDTO masterDTO = fetchOneByU_G_C(user.getId(),0L,0L);
+    MasterDTO masterDTO = fetchOneByUserIdGroupIdCompanyId(user.getId(),0L,0L);
 
     if (Objects.nonNull(user.getFirstName())||Objects.nonNull(user.getLastName()))
     {
@@ -108,7 +110,7 @@ public class MasterServiceImpl implements MasterService
     if (Objects.nonNull(user.getImageUrl()))
       masterDTO.setImageUrl(user.getImageUrl());
 
-    log.debug("masterDTO after set value: ",masterDTO);
+    log.debug("masterDTO after set value . masterDTO= {} ",masterDTO);
     return save(masterDTO);
   }
 
@@ -119,8 +121,7 @@ public class MasterServiceImpl implements MasterService
     Master master = masterMapper.toEntity(masterDTO);
     master = masterRepository.save(master);
     masterSearchRepository.save(master);
-    MasterDTO result = masterMapper.toDto(master);
-    return result;
+    return masterMapper.toDto(master);
   }
 
   @Override
@@ -158,9 +159,22 @@ public class MasterServiceImpl implements MasterService
   }
 
   @Override
-  public MasterDTO fetchOneByU_G_C(Long userId, Long groupId, Long companyId)
+  public MasterDTO fetchOneByUserIdGroupIdCompanyId(Long userId, Long groupId, Long companyId)
   {
     Master master = masterRepository.findOneByUserIdAndGroupIdAndCompanyId(userId, groupId , companyId);
     return masterMapper.toDto(master);
+  }
+
+  @Override
+  public MasterDTO fetchOneByUserNameGroupIdCompanyId(String userName, Long groupId, Long companyId)
+  {
+    Master master = masterRepository.findOneByUserNameAndGroupIdAndCompanyId(userName, groupId , companyId);
+    return masterMapper.toDto(master);
+  }
+
+  @Override
+  public List<Master> findByUsername(String username)
+  {
+    return masterRepository.findByUserName(username);
   }
 }

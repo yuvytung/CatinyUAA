@@ -1,11 +1,13 @@
 package org.regitiny.catiny.uaa.service;
 
+import org.regitiny.catiny.uaa.domain.Master;
 import org.regitiny.catiny.uaa.domain.User;
 import org.regitiny.catiny.uaa.service.dto.MasterDTO;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -76,7 +78,27 @@ public interface MasterService
    * @param userId
    * @param groupId
    * @param companyId
-   * @return
+   * @return master.
    */
-  MasterDTO fetchOneByU_G_C(Long userId, Long groupId, Long companyId);
+  MasterDTO fetchOneByUserIdGroupIdCompanyId(Long userId, Long groupId, Long companyId);
+
+
+  /**
+   * get only one master user by userId , groupId , companyId
+   *
+   * @param userName
+   * @param groupId
+   * @param companyId
+   * @return master.
+   */
+  MasterDTO fetchOneByUserNameGroupIdCompanyId(String userName, Long groupId, Long companyId);
+
+
+  /**
+   * get list master by username
+   *
+   * @param username
+   * @return list of master
+   */
+  List<Master> findByUsername(String username);
 }

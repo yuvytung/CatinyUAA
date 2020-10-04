@@ -2,9 +2,15 @@ package org.regitiny.catiny.uaa.service.kafka.consumer;
 
 
 import lombok.extern.log4j.Log4j2;
+import org.regitiny.catiny.uaa.service.MasterService;
+import org.regitiny.catiny.uaa.service.dto.MasterDTO;
+import org.regitiny.catiny.uaa.service.exception.MasterConsumerException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
 
 @Log4j2
 @Service
@@ -34,11 +40,25 @@ public class MasterConsumer
 
   // reply mặc định gửi tin nhắn là: String
 
-  @KafkaListener(topics = "topic2", containerFactory = "requestListenerContainerFactory")
+  @Autowired
+  private MasterService masterService;
+
+  @KafkaListener(topics = "GET_Request-Json_Entity-CatinyUAA.Master", containerFactory = "requestListenerContainerFactory")
   @SendTo
-  public String receive(String request)
+  public String receiveMaster(String request)
   {
-    log.debug(request);
-    return request;
+    log.debug("request : json = {} " + request);
+    MasterDTO masterDTO = new MasterDTO().fromJson(request);
+    log.debug("request convert to master = {}" + masterDTO.toString());
+    if (Objects.isNull(masterDTO) || masterDTO.getUserName() == null)
+      throw new MasterConsumerException("Input is null or userName is null");
+
+    if (Objects.isNull(masterDTO.getCompanyId()))
+      masterDTO.setCompanyId(0L);
+    if (Objects.isNull(masterDTO.getGroupId()))
+      masterDTO.setGroupId(0L);
+
+    MasterDTO result = masterService.fetchOneByUserNameGroupIdCompanyId(masterDTO.getUserName(), masterDTO.getGroupId(), masterDTO.getCompanyId());
+    return result.toJsonString();
   }
 }
