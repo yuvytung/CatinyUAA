@@ -74,11 +74,12 @@ public class MasterServiceImpl implements MasterService
 
     String userName = user.getLogin();
 
-    MasterDTO masterDTO = MasterDTO.builder().masterId(masterId).userId(userId).masterUserName(masterUsername).email(email).
+    MasterDTO masterDTO = MasterDTO.builder().masterId(masterId).userId(userId).firstName(firstName).lastName(lastName).masterUserName(masterUsername).email(email).
       createdDate(createDate).modifiedDate(modifiedDate).imageUrl(imageUrl).companyId(companyId).groupId(groupId).companyName(companyName).
       groupName(groupName).userName(userName).build();
 
     log.debug("masterDTO after set . masterDTO= {}",masterDTO);
+    masterSearchRepository.save(masterMapper.toEntity(masterDTO));
     return save(masterDTO);
   }
 
@@ -101,6 +102,9 @@ public class MasterServiceImpl implements MasterService
       else
         masterUsername = firstName + lastName;
 
+      masterDTO.setFirstName(firstName);
+      masterDTO.setLastName(lastName);
+
       masterDTO.setUserName(user.getLogin());
       masterDTO.setMasterUserName(masterUsername);
     }
@@ -109,8 +113,10 @@ public class MasterServiceImpl implements MasterService
       masterDTO.setEmail(user.getEmail());
     if (Objects.nonNull(user.getImageUrl()))
       masterDTO.setImageUrl(user.getImageUrl());
+    masterDTO.setModifiedDate(Instant.now());
 
     log.debug("masterDTO after set value . masterDTO= {} ",masterDTO);
+    masterSearchRepository.save(masterMapper.toEntity(masterDTO));
     return save(masterDTO);
   }
 

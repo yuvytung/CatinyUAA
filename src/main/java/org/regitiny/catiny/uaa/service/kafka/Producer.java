@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
+import org.springframework.context.annotation.Bean;
 import org.springframework.kafka.core.*;
 import org.springframework.kafka.listener.ContainerProperties;
 import org.springframework.kafka.listener.KafkaMessageListenerContainer;
@@ -42,6 +43,7 @@ public class Producer<Request, Reply>
     return new ReplyingKafkaTemplate<>(requestProducerFactory(), replyListenerContainer(replyTopic, targetType));
   }
 
+  @Bean
   public KafkaTemplate<String, String> kafkaTemplate()
   {
     return new KafkaTemplate(requestProducerFactory());

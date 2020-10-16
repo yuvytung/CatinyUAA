@@ -89,6 +89,7 @@ public class UaaConfiguration extends AuthorizationServerConfigurerAdapter imple
         .and()
         .authorizeRequests()
         .antMatchers("/api/register").permitAll()
+        .antMatchers("/api/deep/**").permitAll() //This api is only used for local services . it was blocked by the gateway
         .antMatchers("/api/activate").permitAll()
         .antMatchers("/api/authenticate").permitAll()
         .antMatchers("/api/account/reset-password/init").permitAll()

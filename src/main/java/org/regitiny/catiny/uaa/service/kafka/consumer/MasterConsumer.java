@@ -11,6 +11,7 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
+import java.util.UUID;
 
 @Log4j2
 @Service
@@ -45,7 +46,7 @@ public class MasterConsumer
 
   @KafkaListener(topics = "GET_Request-Json_Entity-CatinyUAA.Master", containerFactory = "requestListenerContainerFactory")
   @SendTo
-  public String receiveMaster(String request)
+  public String receiveGetMasterByUserName_G_C(String request) throws Exception
   {
     log.debug("request : json = {} " + request);
     MasterDTO masterDTO = new MasterDTO().fromJson(request);
@@ -59,6 +60,22 @@ public class MasterConsumer
       masterDTO.setGroupId(0L);
 
     MasterDTO result = masterService.fetchOneByUserNameGroupIdCompanyId(masterDTO.getUserName(), masterDTO.getGroupId(), masterDTO.getCompanyId());
-    return result.toJsonString();
+    if (Objects.nonNull(result))
+      return result.toJsonString();
+    throw new Exception();
+  }
+
+  @KafkaListener(topics = "GET_Request-String_Field-CatinyUAA.Master", containerFactory = "requestListenerContainerFactory")
+  @SendTo
+  public String receiveGetMasterByMasterId(UUID masterId) throws Exception
+  {
+    log.debug("request : json = {} " , masterId);
+    if (Objects.isNull(masterId) )
+      throw new MasterConsumerException("Input is null or userName is null");
+
+    MasterDTO result = masterService.fetchOne(masterId);
+    if (Objects.nonNull(result))
+      return result.toJsonString();
+    throw new Exception();
   }
 }

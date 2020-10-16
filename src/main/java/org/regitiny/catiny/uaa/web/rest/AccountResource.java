@@ -1,5 +1,6 @@
 package org.regitiny.catiny.uaa.web.rest;
 
+import org.regitiny.catiny.uaa.business.MasterBusiness;
 import org.regitiny.catiny.uaa.domain.User;
 import org.regitiny.catiny.uaa.repository.UserRepository;
 import org.regitiny.catiny.uaa.security.SecurityUtils;
@@ -49,13 +50,16 @@ public class AccountResource
 
   private final MasterService masterService;
 
-  public AccountResource(UserRepository userRepository, UserService userService, MailService mailService, MasterService masterService)
+  private final MasterBusiness masterBusiness;
+
+  public AccountResource(UserRepository userRepository, UserService userService, MailService mailService, MasterService masterService, MasterBusiness masterBusiness)
   {
 
     this.userRepository = userRepository;
     this.userService = userService;
     this.mailService = mailService;
     this.masterService = masterService;
+    this.masterBusiness = masterBusiness;
   }
 
   /**
@@ -154,7 +158,15 @@ public class AccountResource
     userService.updateUser(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getEmail(),
       userDTO.getLangKey(), userDTO.getImageUrl());
 
-    MasterDTO masterDTO = masterService.updateMasterWhenUpdateUser(user.get());
+    User user2 = user.get();
+
+    user2.setFirstName(userDTO.getFirstName());
+    user2.setLastName(userDTO.getLastName());
+    user2.setEmail(userDTO.getEmail());
+    user2.setImageUrl(userDTO.getImageUrl());
+
+    MasterDTO masterDTO = masterBusiness.updateMasterWhenUpdateUser(user.get());
+
 
     log.debug("after update master = {}" ,masterDTO);
   }
