@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @Validated
-@Api(value = "master", description = "the deep master API", produces = "application/json", consumes = "application/json")
+@Api(value = "master", description = "The deep master API (use for local services)", produces = "application/json", consumes = "application/json", tags = "api-deep-master")
 @RequestMapping("/api/deep/master")
 public interface MasterDeepApi
 {
@@ -31,7 +31,7 @@ public interface MasterDeepApi
    * or master not found (status code 404)
    * or Validation exception (status code 405)
    */
-  @ApiOperation(value = "Get master", nickname = "getMasterByUserNameGroupIdCompanyId", notes = "Get a master by userId, groupId , companyId", tags = {"master"})
+  @ApiOperation(value = "Get master", nickname = "getMasterByUserNameGroupIdCompanyId", notes = "Get a master by userId, groupId , companyId")
   @ApiResponses(value = {
     @ApiResponse(code = 200, message = "get master successful"),
     @ApiResponse(code = 404, message = "master not found"),
@@ -39,8 +39,8 @@ public interface MasterDeepApi
   @GetMapping(value = "", produces = "application/json")
   ResponseEntity<MasterDTO> getMasterByUserName_G_C(
     @ApiParam(name = "userName", type = "String", value = "the user name of master", example = "meo9x", required = true) @RequestParam String userName,
-    @ApiParam(name = "groupId", type = "UUID", value = "groupId of the user in master", example = "0", required = false) @RequestParam(required = false) Long groupId,
-    @ApiParam(name = "companyId", type = "UUID", value = "the companyId of the user in master", example = "0", required = false) @RequestParam(required = false) Long companyId);
+    @ApiParam(name = "groupId", type = "Long", value = "groupId of the user in master", example = "0", required = false) @RequestParam(required = false) Long groupId,
+    @ApiParam(name = "companyId", type = "Long", value = "the companyId of the user in master", example = "0", required = false) @RequestParam(required = false) Long companyId);
 
 
   /**
@@ -53,7 +53,7 @@ public interface MasterDeepApi
    * or master not found (status code 404)
    * or Validation exception (status code 405)
    */
-  @ApiOperation(value = "Get master", nickname = "getMasterByMasterId", notes = "Get a master by masterId", tags = {"master"})
+  @ApiOperation(value = "Get master", nickname = "getMasterByMasterId", notes = "Get a master by masterId")
   @ApiResponses(value = {
     @ApiResponse(code = 200, message = "get master successful"),
     @ApiResponse(code = 400, message = "Invalid ID supplied"),
