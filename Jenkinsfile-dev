@@ -1,7 +1,7 @@
 #!/usr/bin/env groovy
 
 node {
-	stage('checkout')
+	stage('checkout dev')
 	{
 		checkout scm
 	}
@@ -39,6 +39,17 @@ node {
 			sh "docker-compose -f src/main/docker/app-prod.yml up -d"
 		}
 	}
+	stage('check jhipster-registry-dev')
+	{
+		try
+		{
+			sh "docker container inspect docker_jhipster-registry-dev_1"
+		}
+		catch (ignored)
+		{
+			sh "docker-compose -f src/main/docker/jhipster-registry-dev.yml up -d"
+		}
+	}
 
 	stage('nohttp')
 	{
@@ -64,7 +75,7 @@ node {
 
 	stage('build docker catiny-uaa')
 	{
-		sh "./gradlew bootJar -Pprod jibDockerBuild --no-daemon"
+		sh "./gradlew bootJar -Pdev jibDockerBuild --no-daemon"
 	}
 
 	stage('start docker catiny-uaa')
