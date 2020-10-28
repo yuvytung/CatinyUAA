@@ -1,9 +1,5 @@
 version: '2'
 services:
-  catinyuaa-app:
-    extends:
-      file: catiny-uaa.yml
-      service: catinyuaa-app
   catinyuaa-mariadb:
     extends:
       file: mariadb.yml

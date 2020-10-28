@@ -1,0 +1,45 @@
+# ============================================================================
+# Add by yuvytung
+# This file use for server-dev : dev.catiny.com
+# ============================================================================
+
+version: '2'
+services:
+  catinyuaa-app:
+    extends:
+      file: catiny-uaa.yml
+      service: catinyuaa-app
+    environment:
+      - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://admin:$${jhipster.registry.password}@dev.catiny.com:10200/eureka
+      - SPRING_CLOUD_CONFIG_URI=http://admin:$${jhipster.registry.password}@dev.catiny.com:10200/config
+      - JHIPSTER_SLEEP=120 # gives time for mariadb server to start
+  catinyuaa-mariadb:
+    extends:
+      file: mariadb.yml
+      service: catinyuaa-mariadb
+  catinyuaa-redis:
+    extends:
+      file: redis.yml
+      service: catinyuaa-redis
+  catinyuaa-elasticsearch:
+    extends:
+      file: elasticsearch.yml
+      service: catinyuaa-elasticsearch
+  kafka:
+    extends:
+      file: kafka.yml
+      service: kafka
+    environment:
+      - KAFKA_ADVERTISED_HOST_NAME=kafka
+      - KAFKA_ADVERTISED_LISTENERS=LISTENER_PRIVATE://kafka:9092,LISTENER_PUBLIC://103.142.139.174:10400
+  zookeeper:
+    extends:
+      file: kafka.yml
+      service: zookeeper
+  jhipster-registry:
+    extends:
+      file: jhipster-registry.yml
+      service: jhipster-registry
+    environment:
+      - SPRING_CLOUD_CONFIG_SERVER_COMPOSITE_0_TYPE=native
+      - SPRING_CLOUD_CONFIG_SERVER_COMPOSITE_0_SEARCH_LOCATIONS=file:./central-config/dev-config/
