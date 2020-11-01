@@ -22,7 +22,7 @@ services:
       service: kafka
     environment:
       - KAFKA_ADVERTISED_HOST_NAME=kafka
-      - KAFKA_ADVERTISED_LISTENERS=LISTENER_PRIVATE://kafka:9092,LISTENER_PUBLIC://103.142.139.174:10400
+      - KAFKA_ADVERTISED_LISTENERS=LISTENER_PRIVATE://kafka:9092,LISTENER_PUBLIC://catiny.com:10400
   zookeeper:
     extends:
       file: kafka.yml
@@ -32,5 +32,6 @@ services:
       file: jhipster-registry.yml
       service: jhipster-registry
     environment:
+      - SPRING_PROFILES_ACTIVE=prod,swagger,uaa
       - SPRING_CLOUD_CONFIG_SERVER_COMPOSITE_0_TYPE=native
       - SPRING_CLOUD_CONFIG_SERVER_COMPOSITE_0_SEARCH_LOCATIONS=file:./central-config/docker-config/
