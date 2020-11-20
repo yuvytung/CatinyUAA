@@ -21,7 +21,9 @@ logging:
 
 eureka:
   instance:
-    prefer-ip-address: true
+    #    prefer-ip-address: true  default , sửa lại để deploy lên docker swarm
+    prefer-ip-address: false
+    hostname: catinyuaa
   client:
     service-url:
       defaultZone: http://admin:${jhipster.registry.password}@localhost:8761/eureka/

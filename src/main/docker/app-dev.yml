@@ -17,6 +17,8 @@ services:
     extends:
       file: mariadb.yml
       service: catinyuaa-mariadb
+  #    volumes:
+  #      - /root/volumes/jhipster/CatinyUAA/mysql/:/var/lib/mysql/
   catinyuaa-redis:
     extends:
       file: redis.yml
@@ -25,6 +27,8 @@ services:
     extends:
       file: elasticsearch.yml
       service: catinyuaa-elasticsearch
+  #    volumes:
+  #      - /root/volumes/jhipster/CatinyUAA/elasticsearch/:/usr/share/elasticsearch/data/
   kafka:
     extends:
       file: kafka.yml

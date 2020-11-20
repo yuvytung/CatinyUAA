@@ -117,6 +117,12 @@ To achieve this, first build a docker image of your app by running:
 ./gradlew bootJar -Pprod jibDockerBuild
 ```
 
+You want push image to local repository docker
+
+```
+gradlew bootJar -Pprod -DsendCredentialsOverHttp=true  jib
+```
+
 Then run:
 
 ```

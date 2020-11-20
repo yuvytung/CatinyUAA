@@ -31,11 +31,28 @@ public class Consumer<Request, Reply>
 
   }
 
+  /**
+   * use for request and reply
+   * @return
+   */
   @Bean
   @SuppressWarnings("unchecked")
   public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, Request>> requestListenerContainerFactory()
   {
     return requestListenerContainerFactoryCustom((Class<? super Request>) String.class);
+  }
+
+  /**
+   * use for request and non-reply
+   * @return
+   */
+  @Bean
+  @SuppressWarnings("unchecked")
+  public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, Request>> listenerContainerFactory()
+  {
+    ConcurrentKafkaListenerContainerFactory<String, Request> factory = new ConcurrentKafkaListenerContainerFactory<>();
+    factory.setConsumerFactory(requestConsumerFactory((Class<? super Request>) String.class));
+    return factory;
   }
 
   public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, Request>> requestListenerContainerFactoryCustom(Class<? super Request> targetType)
