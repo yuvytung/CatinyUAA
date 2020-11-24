@@ -47,9 +47,9 @@ node {
 		}
 		try
 		{
-			sh 'docker service inspect catiny-services_catinyuaadev-elasticsearch'
-			sh 'docker service inspect catiny-services_catinyuaadev-mariadb'
-			sh 'docker service inspect catiny-services_catinyuaadev-redis'
+			sh 'docker service inspect catinydev-services_catinydevuaa-elasticsearch'
+			sh 'docker service inspect catinydev-services_catinyuaadev-mariadb'
+			sh 'docker service inspect catinydev-services_catinyuaadev-redis'
 			sh "docker service inspect catinydev-services_jhipster-registry-dev"
 			sh "docker service inspect catinydev-services_zookeeper-dev"
 			sh "docker service inspect catinydev-services_kafka-dev"
