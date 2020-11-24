@@ -63,7 +63,7 @@ spring:
         node:
           max_local_storage_nodes: 2
     jest:
-      uri: http://localhost:14500
+      uri: http://dev.catiny.com:24500
   liquibase:
     contexts: test
   mail:
@@ -131,12 +131,12 @@ jhipster:
   cache: # Cache configuration
     redis: # Redis configuration
       expiration: 3600 # By default objects stay 1 hour (in seconds) in the cache
-      server: redis://localhost:13500
+      server: redis://dev.catiny.com:23500
       cluster: false
       # server: redis://localhost:6379,redis://localhost:16379,redis://localhost:26379
       # cluster: true
 kafka:
-  bootstrap-servers: localhost:9092
+  bootstrap-servers: dev.catiny.com:20400
   consumer:
     key.deserializer: org.apache.kafka.common.serialization.StringDeserializer
     value.deserializer: org.apache.kafka.common.serialization.StringDeserializer
