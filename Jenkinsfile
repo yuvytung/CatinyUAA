@@ -134,8 +134,8 @@ node {
 	stage( 'Log display after 200 seconds from running')
 	{
 		sleep(60)
-		sh "docker service logs --tail 500 catiny-app-dev_catinyuaa"
-		sh "docker service logs --tail 500 catiny-app-prod_catinyuaa"
+		sh "docker service logs --tail 500 --since 60s --no-task-ids catiny-app-dev_catinyuaa"
+		sh "docker service logs --tail 500 --since 60s --no-task-ids catiny-app-prod_catinyuaa"
 		echo "Done."
 	}
 
